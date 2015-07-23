@@ -36,24 +36,27 @@ function update(){
 		break;
 		
 		case 'load':
-			progress = (hubGame.loadPercent + hubMain.loadPercent) / 2;
-			if(progress >= 100){
+			hubLoad.updateProgress((hubGame.loadPercent + hubMain.loadPercent) / 2);
+			if(hubLoad.toMain){
 				endLoad();
 				startMain();
-			}else{
-				hubLoad.updateProgress();
 			}
+
 		break;
 		
 		case 'main':
-			if(hubMain.toPlay){
+			if(hubMain.toGame){
 				endMain();
 				startGame();
 			}
 		break;
 		
 		case 'game':
-		
+			hubGame.update(input);
+			if(hubGame.toMain){
+				endGame();
+				startMain();
+			}
 		break;
 		
 		case 'none':

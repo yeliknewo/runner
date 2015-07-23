@@ -3,6 +3,7 @@ var Pixi = require('Pixi.js');
 function HubMain(loader){
 	this.loaded = false;
 	this.loadPercent = 0;
+	this.toGame = false;
 	this.stage = new Pixi.Container();
 	loader
 	.add('mainBack', 'mainback.png')
@@ -24,14 +25,14 @@ HubMain.prototype.onLoad = function(loader, resources){
 	this.stage.addChild(this.back);
 	
 	this.playButton = new Pixi.Sprite(resources.mainPlayButton.texture);
-	this.playButton.position.set(200, 300);
+	this.playButton.position.set(300, 300);
 	this.playButton.interactive = true;
 	this.playButton.mousedown = this.playClick.bind(this);
 	this.stage.addChild(this.playButton);
 }
 
 HubMain.prototype.playClick = function(){
-	this.toPlay = true;
+	this.toGame = true;
 }
 
 module.exports = HubMain;

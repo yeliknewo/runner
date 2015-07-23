@@ -3,6 +3,7 @@ var Pixi = require('Pixi.js');
 function HubLoad(loader){
 	this.loaded = false;
 	this.loadPercent = 0;
+	this.toMain = false;
 	this.stage = new Pixi.Container();
 	loader
 	.add('loadBack', 'loadback.png')
@@ -20,6 +21,10 @@ HubLoad.prototype.setupProgress = function(){
 
 HubLoad.prototype.updateProgress = function(progress){
 	console.log("Loading Progress: " + progress);
+	
+	if(progress >= 100){
+		this.toMain = true;
+	}
 }
 
 HubLoad.prototype.onProgress = function(loader){
@@ -29,7 +34,6 @@ HubLoad.prototype.onProgress = function(loader){
 HubLoad.prototype.onLoad = function(loader, resources){
 	this.loaded = true;
 	this.loadPercent = 100;
-	console.log(this.loadPercent);
 	this.setupProgress();
 }
 
