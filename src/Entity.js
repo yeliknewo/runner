@@ -9,8 +9,10 @@ function Entity(type, textures){
 	
 	if(Const.types[type] == 'gamePlayer'){
 		this.moves = false;
-	}else{
+		this.loops = false;
+	}else if(Const.types[type] == 'gameRock'){
 		this.moves = true;
+		this.loops = true;
 	}
 }
 

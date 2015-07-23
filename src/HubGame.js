@@ -1,8 +1,9 @@
 var Pixi = require('Pixi.js'), Const = require('./Const.js'), Entity = require('./Entity.js');
 
-function HubGame(loader){
+function HubGame(loader, canvasSize){
 	this.loaded = false;
 	this.loadPercent = 0;
+	this.canvasSize = canvasSize;
 	this.stage = new Pixi.Container();
 	loader
 	.add('gameBack', 'gameback.png')
@@ -32,25 +33,35 @@ HubGame.prototype.onLoad = function(loader, resources){
 	
 	this.speedToRads = 1.0 / (this.player.stage.height / 2);
 	this.speed = 0.0;
+	this.friction = 0.9;
 }
 
 HubGame.prototype.update = function(input){
 	this.player.stage.rotation += this.speed * this.speedToRads;
-	this.speed += 1.0;
-	this.speed *= 0.8;
+	//this.speed += 1.0;
+	this.speed *= this.friction;
 	if(input.keys.down.isDown && !input.keys.up.isDown){
-		this.player.stage.position.y += 1;
+		//this.player.stage.position.y += 1;
+		this.speed -= 1.0;
 	}else if(input.keys.up.isDown && !input.keys.down.isDown){
-		this.player.stage.position.y -= 1;
+		//this.player.stage.position.y -= 1;
+		this.speed += 1.0;
 	}
 	for(var i = 0; i < this.entities.length;i++){
 		var e = this.entities[i];
 		if(e.moves){
 			e.stage.position.x -= this.speed;
 		}
+		if(e.loops){
+			if(e.stage.position.x < -e.stage.width / 2){
+				e.stage.position.x += this.canvasSize[0] + e.stage.width;
+			}else if(e.stage.position.x > e.stage.width / 2 + this.canvasSize[0]){
+				e.stage.position.x -= this.canvasSize[0] + e.stage.width;
+			}
+		} 
 	}
 	this.entities.sort(function(a,b){
-		return a.stage.y - b.stage.y;
+		return a.stage.y + a.stage.height / 2 - b.stage.y - b.stage.height / 2;
 	});
 	for(var i = 0;i < this.entities.length;i++){
 		this.stage.setChildIndex(this.entities[i].stage, i + this.stage.children.length - this.entities.length);

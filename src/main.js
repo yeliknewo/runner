@@ -14,7 +14,7 @@ window.onload = function(){
 	
 	hubLoad = new HubLoad(loader);
 	hubMain = new HubMain(loader);
-	hubGame = new HubGame(loader);
+	hubGame = new HubGame(loader, [renderer.view.width, renderer.view.height]);
 	
 	var updatesPerSecond = 40;
 	updateDelta = 1000 / updatesPerSecond;

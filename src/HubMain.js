@@ -24,7 +24,7 @@ HubMain.prototype.onLoad = function(loader, resources){
 	this.back = new Pixi.Sprite(this.textures.mainBack.texture);
 	this.stage.addChild(this.back);
 	
-	this.playButton = new Pixi.Sprite(resources.mainPlayButton.texture);
+	this.playButton = new Pixi.Sprite(this.textures.mainPlayButton.texture);
 	this.playButton.position.set(300, 300);
 	this.playButton.interactive = true;
 	this.playButton.mousedown = this.playClick.bind(this);
